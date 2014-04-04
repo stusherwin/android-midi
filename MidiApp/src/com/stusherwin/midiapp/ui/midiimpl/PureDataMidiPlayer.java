@@ -15,14 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by Stu on 30/03/14.
- */
 public class PureDataMidiPlayer implements SharedPreferences.OnSharedPreferenceChangeListener, MidiPlayer {
-    private static final float frequencyA = 440;
-    private static final float midiNoteA = 57;
-    private static final float twelfthRootOf2 = 1.0594630943592952645618252949463f;
-
     private PdService pdService = null;
     private Context context;
 
@@ -35,9 +28,6 @@ public class PureDataMidiPlayer implements SharedPreferences.OnSharedPreferenceC
         PreferenceManager.getDefaultSharedPreferences(this.context).registerOnSharedPreferenceChangeListener(this);
 
         this.context.bindService(new Intent(this.context, PdService.class), connection, this.context.BIND_AUTO_CREATE);
-    }
-    private float convertToFrequency(int note) {
-        return (float)( frequencyA * Math.pow(twelfthRootOf2, (float)note - midiNoteA));
     }
 
     @Override
@@ -56,18 +46,16 @@ public class PureDataMidiPlayer implements SharedPreferences.OnSharedPreferenceC
 
     private void initPd() {
         Resources res = this.context.getResources();
-        File patchFile = null;
+        File poly = null;
         try {
             PdBase.subscribe("android");
-            InputStream in = res.openRawResource(R.raw.sine);
-            patchFile = IoUtils.extractResource(in, "sine.pd", this.context.getCacheDir());
-
-            PdBase.openPatch(patchFile);
+            poly = IoUtils.extractResource(res.openRawResource(R.raw.poly), "poly.pd", this.context.getCacheDir());
+            PdBase.openPatch(poly);
             startAudio();
         } catch(IOException ex) {
             // do something?
         } finally {
-            if (patchFile != null) patchFile.delete();
+            if (poly != null) poly.delete();
         }
     }
 
@@ -96,12 +84,12 @@ public class PureDataMidiPlayer implements SharedPreferences.OnSharedPreferenceC
     };
 
     @Override
-    public void noteOn(int note) {
-        PdBase.sendMessage("#note", "on", convertToFrequency(note));
+    public void noteOn(int note, int velocity) {
+        PdBase.sendNoteOn(1, note, velocity);
     }
 
     @Override
     public void noteOff(int note) {
-        PdBase.sendMessage("#note", "off");
+        PdBase.sendNoteOn(1, note, 0);
     }
 }

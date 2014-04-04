@@ -60,7 +60,7 @@ public class MyActivity extends Activity {
         @Override
         public void onNoteOn(int channel, int note, final int velocity) {
             if( velocity > 0 )
-                midiPlayer.noteOn(note);
+                midiPlayer.noteOn(note, velocity);
             else
                 midiPlayer.noteOff(note);
         }

@@ -59,7 +59,7 @@ public class AudioTrackMidiPlayer implements MidiPlayer {
         } ).start();
     }
 
-    public void noteOn(int note) {
+    public void noteOn(int note, int velocity) {
         synchronized (tones) {
             tones[note].start();
         }
