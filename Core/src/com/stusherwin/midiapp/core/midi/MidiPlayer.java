@@ -2,8 +2,9 @@ package com.stusherwin.midiapp.core.midi;
 
 import com.stusherwin.midiapp.core.Destroyable;
 import com.stusherwin.midiapp.core.Initializable;
+import rx.Observable;
+import rx.Observer;
 
 public interface MidiPlayer extends Destroyable, Initializable {
-    void noteOn(int note, int velocity);
-    void noteOff(int note);
+    Observer<MidiEvent> input();
 }

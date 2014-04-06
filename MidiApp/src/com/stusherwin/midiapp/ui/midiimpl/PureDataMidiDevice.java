@@ -104,7 +104,7 @@ public class PureDataMidiDevice implements MidiDevice {
     }
 
     @Override
-    public Observable<MidiEvent> getNoteStream() {
+    public Observable<MidiEvent> output() {
         return subject;
     }
 
@@ -114,12 +114,12 @@ public class PureDataMidiDevice implements MidiDevice {
             if( velocity > 0 )
                 subject.onNext(new NoteOn(channel, note, velocity));
             else
-                subject.onNext(new NoteOff(channel, note, velocity));
+                subject.onNext(new NoteOff(channel, note));
         }
 
         @Override
         public void onNoteOff(int channel, int note, int velocity) {
-            subject.onNext(new NoteOff(channel, note, velocity));
+            subject.onNext(new NoteOff(channel, note));
         }
     };
 
