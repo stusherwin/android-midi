@@ -27,7 +27,7 @@ public class PureDataMidiPlayer implements SharedPreferences.OnSharedPreferenceC
         PdPreferences.initPreferences(this.context);
         PreferenceManager.getDefaultSharedPreferences(this.context).registerOnSharedPreferenceChangeListener(this);
 
-        this.context.bindService(new Intent(this.context, PdService.class), connection, this.context.BIND_AUTO_CREATE);
+        this.context.bindService(new Intent(this.context, PdService.class), connection, Context.BIND_AUTO_CREATE);
     }
 
     @Override

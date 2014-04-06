@@ -1,4 +1,4 @@
-package com.stusherwin.midiapp.ui;
+package com.stusherwin.midiapp.ui.midiimpl;
 
 import com.noisepages.nettoyeur.midi.MidiReceiver;
 
