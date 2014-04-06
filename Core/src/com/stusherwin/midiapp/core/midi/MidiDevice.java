@@ -5,5 +5,5 @@ import com.stusherwin.midiapp.core.Initializable;
 import rx.Observable;
 
 public interface MidiDevice extends Destroyable, Initializable {
-    Observable<MidiEvent> output();
+    void setInputListener(MidiDeviceInputListener listener);
 }

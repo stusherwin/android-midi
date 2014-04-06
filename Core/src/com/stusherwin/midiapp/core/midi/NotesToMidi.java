@@ -1,14 +1,23 @@
 package com.stusherwin.midiapp.core.midi;
 
-import com.stusherwin.midiapp.core.Note;
+import com.stusherwin.midiapp.core.*;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-public class NotesToMidi {
-    public Observable<MidiEvent> transform(Observable<Observable<Note>> input) {
+public class NotesToMidi extends ThruModule<Observable<Note>, MidiEvent> {
+    @Override
+    public void init() throws InitializationException {
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+    @Override
+    protected Observable<MidiEvent> transform(Observable<Observable<Note>> input) {
         return input.flatMap(new Func1<Observable<Note>, Observable<MidiEvent>>() {
             @Override
             public Observable<MidiEvent> call(final Observable<Note> noteObservable) {

@@ -15,11 +15,9 @@ import com.noisepages.nettoyeur.usb.util.UsbDeviceSelector;
 import com.stusherwin.midiapp.core.InitializationException;
 import com.stusherwin.midiapp.core.Notifier;
 import com.stusherwin.midiapp.core.midi.MidiDevice;
-import com.stusherwin.midiapp.core.midi.MidiEvent;
+import com.stusherwin.midiapp.core.midi.MidiDeviceInputListener;
 import com.stusherwin.midiapp.core.midi.NoteOff;
 import com.stusherwin.midiapp.core.midi.NoteOn;
-import rx.Observable;
-import rx.subjects.PublishSubject;
 
 import java.util.List;
 
@@ -28,13 +26,17 @@ public class PureDataMidiDevice implements MidiDevice {
     private Context context;
     private FragmentManager fragmentManager;
     private Notifier notifier;
-    private PublishSubject<MidiEvent> subject;
+    private MidiDeviceInputListener listener;
 
     public PureDataMidiDevice(Context context, FragmentManager fragmentManager, Notifier notifier) {
         this.context = context;
         this.fragmentManager = fragmentManager;
         this.notifier = notifier;
-        this.subject = PublishSubject.create();
+    }
+
+    @Override
+    public void setInputListener(MidiDeviceInputListener listener) {
+        this.listener = listener;
     }
 
     @Override
@@ -103,23 +105,18 @@ public class PureDataMidiDevice implements MidiDevice {
         UsbMidiDevice.uninstallBroadcastHandler(context);
     }
 
-    @Override
-    public Observable<MidiEvent> output() {
-        return subject;
-    }
-
     private final MidiReceiver receiver = new DefaultMidiReceiver() {
         @Override
         public void onNoteOn(int channel, int note, final int velocity) {
             if( velocity > 0 )
-                subject.onNext(new NoteOn(channel, note, velocity));
+                listener.onMidiEvent(new NoteOn(channel, note, velocity));
             else
-                subject.onNext(new NoteOff(channel, note));
+                listener.onMidiEvent(new NoteOff(channel, note));
         }
 
         @Override
         public void onNoteOff(int channel, int note, int velocity) {
-            subject.onNext(new NoteOff(channel, note));
+            listener.onMidiEvent(new NoteOff(channel, note));
         }
     };
 

@@ -1,4 +1,4 @@
-package com.stusherwin.midiapp.ui.midiimpl;
+    package com.stusherwin.midiapp.ui.midiimpl;
 
 import android.content.*;
 import android.content.res.Resources;
@@ -13,11 +13,9 @@ import org.puredata.android.service.PdPreferences;
 import org.puredata.android.service.PdService;
 import org.puredata.core.PdBase;
 import org.puredata.core.utils.IoUtils;
-import rx.Observer;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class PureDataMidiPlayer implements SharedPreferences.OnSharedPreferenceChangeListener, MidiPlayer {
     private PdService pdService = null;
@@ -88,29 +86,14 @@ public class PureDataMidiPlayer implements SharedPreferences.OnSharedPreferenceC
     };
 
     @Override
-    public Observer<MidiEvent> input() {
-        return new Observer<MidiEvent>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable throwable) {
-
-            }
-
-            @Override
-            public void onNext(MidiEvent midiEvent) {
-                if(midiEvent instanceof NoteOn) {
-                    NoteOn noteOn = (NoteOn)midiEvent;
-                    PdBase.sendNoteOn(noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity());
-                }
-                if(midiEvent instanceof NoteOff) {
-                    NoteOff noteOff = (NoteOff)midiEvent;
-                    PdBase.sendNoteOn(noteOff.getChannel(), noteOff.getNote(), 0);
-                }
-            }
-        };
+    public void send(MidiEvent midiEvent) {
+        if(midiEvent instanceof NoteOn) {
+            NoteOn noteOn = (NoteOn)midiEvent;
+            PdBase.sendNoteOn(noteOn.getChannel(), noteOn.getNote(), noteOn.getVelocity());
+        }
+        if(midiEvent instanceof NoteOff) {
+            NoteOff noteOff = (NoteOff)midiEvent;
+            PdBase.sendNoteOn(noteOff.getChannel(), noteOff.getNote(), 0);
+        }
     }
 }

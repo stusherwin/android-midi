@@ -1,12 +1,21 @@
 package com.stusherwin.midiapp.core.midi;
 
-import com.stusherwin.midiapp.core.Note;
+import com.stusherwin.midiapp.core.*;
 import rx.Observable;
 import rx.functions.Func1;
 import rx.observables.GroupedObservable;
 
-public class MidiToNotes {
-    public Observable<Observable<Note>> transform(Observable<MidiEvent> input) {
+public class MidiToNotes extends ThruModule<MidiEvent, Observable<Note>> {
+    @Override
+    public void init() throws InitializationException {
+    }
+
+    @Override
+    public void destroy() {
+    }
+
+    @Override
+    protected Observable<Observable<Note>> transform(Observable<MidiEvent> input) {
         return input
             .filter(new Func1<MidiEvent, Boolean>() {
                 @Override
@@ -16,23 +25,23 @@ public class MidiToNotes {
             })
             .cast(NoteMidiEvent.class)
             .groupByUntil(
-                new Func1<NoteMidiEvent, Integer>() {
-                    @Override
-                    public Integer call(NoteMidiEvent midiEvent) {
-                        return midiEvent.getNote();
+                    new Func1<NoteMidiEvent, Integer>() {
+                        @Override
+                        public Integer call(NoteMidiEvent midiEvent) {
+                            return midiEvent.getNote();
+                        }
+                    },
+                    new Func1<GroupedObservable<Integer, NoteMidiEvent>, Observable<NoteMidiEvent>>() {
+                        @Override
+                        public Observable<NoteMidiEvent> call(GroupedObservable<Integer, NoteMidiEvent> integerNoteGroupedObservable) {
+                            return integerNoteGroupedObservable.filter(new Func1<NoteMidiEvent, Boolean>() {
+                                @Override
+                                public Boolean call(NoteMidiEvent noteMidiEvent) {
+                                    return noteMidiEvent instanceof NoteOff;
+                                }
+                            });
+                        }
                     }
-                },
-                new Func1<GroupedObservable<Integer, NoteMidiEvent>, Observable<NoteMidiEvent>>() {
-                    @Override
-                    public Observable<NoteMidiEvent> call(GroupedObservable<Integer, NoteMidiEvent> integerNoteGroupedObservable) {
-                        return integerNoteGroupedObservable.filter(new Func1<NoteMidiEvent, Boolean>() {
-                            @Override
-                            public Boolean call(NoteMidiEvent noteMidiEvent) {
-                                return noteMidiEvent instanceof NoteOff;
-                            }
-                        });
-                    }
-                }
             ).map(new Func1<GroupedObservable<Integer, NoteMidiEvent>, Observable<Note>>() {
                 @Override
                 public Observable<Note> call(GroupedObservable<Integer, NoteMidiEvent> integerNoteGroupedObservable) {

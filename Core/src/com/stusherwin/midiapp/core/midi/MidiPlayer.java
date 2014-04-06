@@ -6,5 +6,5 @@ import rx.Observable;
 import rx.Observer;
 
 public interface MidiPlayer extends Destroyable, Initializable {
-    Observer<MidiEvent> input();
+    void send(MidiEvent midiEvent);
 }

@@ -2,9 +2,6 @@ package com.stusherwin.midiapp.ui.midiimpl;
 
 import com.noisepages.nettoyeur.midi.MidiReceiver;
 
-/**
- * Created by Stu on 03/04/14.
- */
 public class DefaultMidiReceiver implements MidiReceiver {
     @Override
     public void onNoteOff(int channel, int key, int velocity) {}
