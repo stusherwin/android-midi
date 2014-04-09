@@ -13,7 +13,7 @@ public class MidiOutput extends SinkModule<MidiEvent> {
         this.midiPlayer = midiPlayer;
         this.input = new InputNode<MidiEvent>();
 
-        this.input.subject().subscribe(new Action1<MidiEvent>() {
+        this.input.observable().subscribe(new Action1<MidiEvent>() {
             @Override
             public void call(MidiEvent midiEvent) {
                 MidiOutput.this.midiPlayer.send(midiEvent);

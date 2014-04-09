@@ -10,7 +10,7 @@ public abstract class ThruModule<TInput, TOutput> extends Module {
         this.input = new InputNode<TInput>();
         this.output = new OutputNode<TOutput>();
 
-        transform(input.subject()).subscribe(output.subject());
+        transform(input.observable()).subscribe(output.observer());
     }
 
     public InputNode<TInput> input() {

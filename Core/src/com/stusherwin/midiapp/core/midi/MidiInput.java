@@ -24,6 +24,6 @@ public class MidiInput extends SourceModule<MidiEvent> implements MidiDeviceInpu
 
     @Override
     public void onMidiEvent(MidiEvent midiEvent) {
-        this.output().subject().onNext(midiEvent);
+        this.output().observer().onNext(midiEvent);
     }
 }
