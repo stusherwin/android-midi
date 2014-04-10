@@ -11,7 +11,7 @@ import com.stusherwin.midiapp.core.midi.*;
 import com.stusherwin.midiapp.ui.midiimpl.PureDataMidiDevice;
 import com.stusherwin.midiapp.ui.midiimpl.PureDataMidiPlayer;
 
-public class MyActivity extends Activity implements Notifier {
+public class MainActivity extends Activity implements Notifier {
     private MidiInput midiInput;
     private MidiOutput midiOutput;
     private MidiToNotes midiToNotes;
