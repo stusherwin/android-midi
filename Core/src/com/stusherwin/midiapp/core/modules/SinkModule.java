@@ -1,4 +1,4 @@
-package com.stusherwin.midiapp.core;
+package com.stusherwin.midiapp.core.modules;
 
 public abstract class SinkModule<T> extends Module {
     private InputNode<T> input;

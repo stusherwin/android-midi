@@ -7,15 +7,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 import com.stusherwin.midiapp.core.Notifier;
-import com.stusherwin.midiapp.core.midi.*;
+import com.stusherwin.midiapp.core.midi.modules.*;
 import com.stusherwin.midiapp.ui.midiimpl.PureDataMidiDevice;
 import com.stusherwin.midiapp.ui.midiimpl.PureDataMidiPlayer;
 
 public class MainActivity extends Activity implements Notifier {
     private MidiInput midiInput;
     private MidiOutput midiOutput;
-    private MidiToNotes midiToNotes;
-    private NotesToMidi notesToMidi;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -24,12 +22,17 @@ public class MainActivity extends Activity implements Notifier {
 
         midiInput = new MidiInput(new PureDataMidiDevice(getApplicationContext(), getFragmentManager(), this));
         midiOutput = new MidiOutput(new PureDataMidiPlayer(getApplicationContext()));
-        midiToNotes = new MidiToNotes();
-        notesToMidi = new NotesToMidi();
+        MidiToNotes midiToNotes = new MidiToNotes();
+        NotesToMidi notesToMidi = new NotesToMidi();
+        NotesToMidi2 notesToMidi2 = new NotesToMidi2();
+        MidiToNotes2 midiToNotes2 = new MidiToNotes2();
 
-        midiInput.output().connectTo(midiToNotes.input());
-        midiToNotes.output().connectTo(notesToMidi.input());
-        notesToMidi.output().connectTo(midiOutput.input());
+//        midiInput.output().connectTo(midiToNotes.input());
+//        midiToNotes.output().connectTo(notesToMidi.input());
+//        notesToMidi.output().connectTo(midiOutput.input());
+        midiInput.output().connectTo(midiToNotes2.input());
+        midiToNotes2.output().connectTo(notesToMidi2.input());
+        notesToMidi2.output().connectTo(midiOutput.input());
 
         Button connect = (Button) findViewById(R.id.connect);
         connect.setOnClickListener( new View.OnClickListener() {
@@ -39,12 +42,15 @@ public class MainActivity extends Activity implements Notifier {
                 midiOutput.init();
             }
         });
+        ViewGroup container = (ViewGroup)findViewById(R.id.layout);
 
         MidiEventViewer viewer = new MidiEventViewer(getApplicationContext());
-        viewer.input().connectTo(notesToMidi.output());
-        notesToMidi.output().connectTo(viewer.input());
-        ViewGroup container = (ViewGroup)findViewById(R.id.layout);
+        viewer.input().connectTo(notesToMidi2.output());
         container.addView(viewer);
+
+//        NoteViewer noteViewer = new NoteViewer(getApplicationContext());
+//        noteViewer.input().connectTo(midiToNotes2.output());
+//        container.addView(noteViewer);
     }
 
     @Override

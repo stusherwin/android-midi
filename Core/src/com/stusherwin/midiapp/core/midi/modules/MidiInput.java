@@ -1,7 +1,10 @@
-package com.stusherwin.midiapp.core.midi;
+package com.stusherwin.midiapp.core.midi.modules;
 
 import com.stusherwin.midiapp.core.InitializationException;
-import com.stusherwin.midiapp.core.SourceModule;
+import com.stusherwin.midiapp.core.modules.SourceModule;
+import com.stusherwin.midiapp.core.midi.MidiDevice;
+import com.stusherwin.midiapp.core.midi.MidiDeviceInputListener;
+import com.stusherwin.midiapp.core.midi.MidiEvent;
 
 public class MidiInput extends SourceModule<MidiEvent> implements MidiDeviceInputListener {
     private MidiDevice midiDevice;

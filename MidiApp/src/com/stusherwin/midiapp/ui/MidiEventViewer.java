@@ -3,8 +3,10 @@ package com.stusherwin.midiapp.ui;
 import android.content.Context;
 import android.graphics.*;
 import android.view.TextureView;
-import com.stusherwin.midiapp.core.InputNode;
 import com.stusherwin.midiapp.core.midi.MidiEvent;
+import com.stusherwin.midiapp.core.modules.InputNode;
+import com.stusherwin.midiapp.core.Note;
+import rx.Observable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 

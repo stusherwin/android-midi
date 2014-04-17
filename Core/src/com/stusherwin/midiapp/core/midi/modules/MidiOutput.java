@@ -1,8 +1,10 @@
-package com.stusherwin.midiapp.core.midi;
+package com.stusherwin.midiapp.core.midi.modules;
 
 import com.stusherwin.midiapp.core.InitializationException;
-import com.stusherwin.midiapp.core.InputNode;
-import com.stusherwin.midiapp.core.SinkModule;
+import com.stusherwin.midiapp.core.modules.InputNode;
+import com.stusherwin.midiapp.core.modules.SinkModule;
+import com.stusherwin.midiapp.core.midi.MidiEvent;
+import com.stusherwin.midiapp.core.midi.MidiPlayer;
 import rx.functions.Action1;
 
 public class MidiOutput extends SinkModule<MidiEvent> {

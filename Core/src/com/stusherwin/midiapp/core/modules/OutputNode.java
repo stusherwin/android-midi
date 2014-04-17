@@ -1,4 +1,4 @@
-package com.stusherwin.midiapp.core;
+package com.stusherwin.midiapp.core.modules;
 
 import rx.Observer;
 

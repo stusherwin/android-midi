@@ -1,4 +1,4 @@
-package com.stusherwin.midiapp.core;
+package com.stusherwin.midiapp.core.modules;
 
 public abstract class SourceModule<T> extends Module {
     private OutputNode<T> output;
