@@ -1,7 +1,7 @@
 package com.stusherwin.midiapp.core.midi;
 
 import com.stusherwin.midiapp.core.Note;
-import rx.Observable;
+import rx.lang.scala.Observable;
 
 public class NoteWithDuration {
     private Note note;

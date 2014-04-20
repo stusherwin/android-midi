@@ -4,6 +4,7 @@ import android.content.*;
 import android.content.res.Resources;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import com.stusherwin.midiapp.core.midi.MidiEvent;
 import com.stusherwin.midiapp.core.midi.MidiPlayer;
 import com.stusherwin.midiapp.core.midi.NoteOff;
